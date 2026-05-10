@@ -1,11 +1,11 @@
 {
   "domain": "z906_ir_remote_ha",
   "name": "Z906 IR Remote HA",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "documentation": "https://github.com/mastertape/z906-ir-remote-ha",
   "issue_tracker": "https://github.com/mastertape/z906-ir-remote-ha/issues",
   "dependencies": ["infrared"],
   "codeowners": [],
-  "integration_type": "service",
+  "integration_type": "device",
   "iot_class": "assumed_state"
 }
