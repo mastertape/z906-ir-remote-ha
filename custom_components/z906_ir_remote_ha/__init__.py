@@ -1,47 +1,28 @@
-"""Tiny IR helper services for Home Assistant infrared emitters."""
+"""Z906 IR Remote HA integration."""
 
 from __future__ import annotations
 
 import voluptuous as vol
 
-from infrared_protocols import NECCommand
-
-from homeassistant.components import infrared
 from homeassistant.components.infrared import DOMAIN as INFRARED_DOMAIN
-from homeassistant.const import CONF_ENTITY_ID
+from homeassistant.const import CONF_ENTITY_ID, CONF_NAME, Platform
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers import discovery
+from homeassistant.helpers.typing import ConfigType
 
-DOMAIN = "z906_ir_remote_ha"
-
-DEFAULT_EMITTER = "infrared.xiao_smart_ir_mate_ir_proxy_transmitter"
-
-Z906_ADDRESS = 0xA002
-Z906_MODULATION = 38650
-
-Z906_COMMANDS: dict[str, int] = {
-    "power_toggle": 0x80,
-    "input_next": 0x08,
-    "input_1": 0x04,
-    "input_2": 0x82,
-    "input_3": 0x0C,
-    "input_4": 0x8C,
-    "input_5": 0x02,
-    "aux": 0x42,
-    "mute": 0xEA,
-    "level": 0x0A,
-    "effect": 0x0E,
-    "volume_down": 0x6A,
-    "volume_up": 0xAA,
-    "test": 0x01,
-}
-
-
-def _parse_int(value: int | str) -> int:
-    """Parse decimal or hex values."""
-    if isinstance(value, int):
-        return value
-    return int(value, 0)
+from .const import (
+    CONF_EMITTER_ENTITY_ID,
+    CONF_SOURCES,
+    DEFAULT_EMITTER,
+    DEFAULT_NAME,
+    DOMAIN,
+    Z906_COMMANDS,
+    Z906_SOURCE_COMMANDS,
+)
+from .ir import async_send_nec as async_send_nec_command
+from .ir import async_send_z906 as async_send_z906_command
+from .ir import parse_int
 
 
 def _infrared_entity_id(value: str) -> str:
@@ -55,8 +36,8 @@ def _infrared_entity_id(value: str) -> str:
 SEND_NEC_SCHEMA = vol.Schema(
     {
         vol.Optional(CONF_ENTITY_ID, default=DEFAULT_EMITTER): _infrared_entity_id,
-        vol.Required("address"): vol.All(_parse_int, vol.Range(min=0, max=0xFFFF)),
-        vol.Required("command"): vol.All(_parse_int, vol.Range(min=0, max=0xFF)),
+        vol.Required("address"): vol.All(parse_int, vol.Range(min=0, max=0xFFFF)),
+        vol.Required("command"): vol.All(parse_int, vol.Range(min=0, max=0xFF)),
         vol.Optional("modulation", default=38000): vol.All(
             vol.Coerce(int), vol.Range(min=30000, max=60000)
         ),
@@ -76,39 +57,54 @@ SEND_Z906_SCHEMA = vol.Schema(
     }
 )
 
+DOMAIN_CONFIG_SCHEMA = vol.Schema(
+    {
+        vol.Optional(CONF_EMITTER_ENTITY_ID): _infrared_entity_id,
+        vol.Optional(CONF_NAME): cv.string,
+        vol.Optional(CONF_SOURCES): vol.Schema(
+            {vol.Optional(command): cv.string for command in Z906_SOURCE_COMMANDS}
+        ),
+    }
+)
 
-async def async_setup(hass: HomeAssistant, config: dict) -> bool:
-    """Set up IR helper services."""
+CONFIG_SCHEMA = vol.Schema(
+    {
+        DOMAIN: vol.Any(None, DOMAIN_CONFIG_SCHEMA),
+    },
+    extra=vol.ALLOW_EXTRA,
+)
+
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Set up Z906 IR services and media player."""
+    domain_config = config.get(DOMAIN) or {}
+    discovery_config = {
+        CONF_EMITTER_ENTITY_ID: domain_config.get(
+            CONF_EMITTER_ENTITY_ID, DEFAULT_EMITTER
+        ),
+        CONF_NAME: domain_config.get(CONF_NAME, DEFAULT_NAME),
+        CONF_SOURCES: domain_config.get(CONF_SOURCES, {}),
+    }
 
     async def async_send_nec(call: ServiceCall) -> None:
         """Send a generic NEC / extended NEC command."""
-        ir_command = NECCommand(
-            address=call.data["address"],
-            command=call.data["command"],
-            modulation=call.data["modulation"],
-            repeat_count=call.data["repeat_count"],
-        )
-
-        await infrared.async_send_command(
+        await async_send_nec_command(
             hass,
             call.data[CONF_ENTITY_ID],
-            ir_command,
+            call.data["address"],
+            call.data["command"],
+            call.data["modulation"],
+            repeat_count=call.data["repeat_count"],
             context=call.context,
         )
 
     async def async_send_z906(call: ServiceCall) -> None:
         """Send a Logitech Z906 command."""
-        ir_command = NECCommand(
-            address=Z906_ADDRESS,
-            command=Z906_COMMANDS[call.data["command"]],
-            modulation=Z906_MODULATION,
-            repeat_count=call.data["repeat_count"],
-        )
-
-        await infrared.async_send_command(
+        await async_send_z906_command(
             hass,
             call.data[CONF_ENTITY_ID],
-            ir_command,
+            call.data["command"],
+            repeat_count=call.data["repeat_count"],
             context=call.context,
         )
 
@@ -123,6 +119,14 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
         "send_z906",
         async_send_z906,
         schema=SEND_Z906_SCHEMA,
+    )
+
+    await discovery.async_load_platform(
+        hass,
+        Platform.MEDIA_PLAYER,
+        DOMAIN,
+        discovery_config,
+        config,
     )
 
     return True
