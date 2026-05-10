@@ -1,0 +1,84 @@
+send_nec:
+  name: Send NEC command
+  description: Send an NEC or extended NEC infrared command through an infrared transmitter entity.
+  fields:
+    entity_id:
+      name: Infrared transmitter
+      required: false
+      default: infrared.xiao_smart_ir_mate_ir_proxy_transmitter
+      selector:
+        entity:
+          domain: infrared
+    address:
+      name: Address
+      description: NEC address in infrared-protocols form. For extended NEC, use low byte plus high byte shifted left 8.
+      required: true
+      example: "0xA002"
+      selector:
+        text:
+    command:
+      name: Command
+      description: NEC command byte in infrared-protocols form.
+      required: true
+      example: "0xAA"
+      selector:
+        text:
+    modulation:
+      name: Modulation
+      required: false
+      default: 38000
+      selector:
+        number:
+          min: 30000
+          max: 60000
+          mode: box
+    repeat_count:
+      name: Repeat count
+      required: false
+      default: 0
+      selector:
+        number:
+          min: 0
+          max: 5
+          mode: box
+
+send_z906:
+  name: Send Logitech Z906 command
+  description: Send a predefined Logitech Z906 infrared command through an infrared transmitter entity.
+  fields:
+    entity_id:
+      name: Infrared transmitter
+      required: false
+      default: infrared.xiao_smart_ir_mate_ir_proxy_transmitter
+      selector:
+        entity:
+          domain: infrared
+    command:
+      name: Command
+      required: true
+      selector:
+        select:
+          options:
+            - power_toggle
+            - input_next
+            - input_1
+            - input_2
+            - input_3
+            - input_4
+            - input_5
+            - aux
+            - mute
+            - level
+            - effect
+            - volume_down
+            - volume_up
+            - test
+    repeat_count:
+      name: Repeat count
+      required: false
+      default: 0
+      selector:
+        number:
+          min: 0
+          max: 5
+          mode: box
