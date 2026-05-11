@@ -107,9 +107,6 @@ class Z906MediaPlayer(RestoreEntity, MediaPlayerEntity):
 
     async def async_turn_on(self) -> None:
         """Turn on the receiver using optimistic power-toggle state."""
-        if self._attr_state == MediaPlayerState.ON:
-            return
-
         await async_send_z906(
             self.hass,
             self._emitter_entity_id,
@@ -121,9 +118,6 @@ class Z906MediaPlayer(RestoreEntity, MediaPlayerEntity):
 
     async def async_turn_off(self) -> None:
         """Turn off the receiver using optimistic power-toggle state."""
-        if self._attr_state == MediaPlayerState.OFF:
-            return
-
         await async_send_z906(
             self.hass,
             self._emitter_entity_id,
@@ -135,9 +129,6 @@ class Z906MediaPlayer(RestoreEntity, MediaPlayerEntity):
 
     async def async_mute_volume(self, mute: bool) -> None:
         """Mute or unmute using optimistic mute-toggle state."""
-        if self._attr_is_volume_muted is mute:
-            return
-
         await async_send_z906(
             self.hass,
             self._emitter_entity_id,
