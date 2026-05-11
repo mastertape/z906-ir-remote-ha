@@ -53,7 +53,8 @@ class Z906MediaPlayer(RestoreEntity, MediaPlayerEntity):
     _attr_device_class = MediaPlayerDeviceClass.RECEIVER
     _attr_should_poll = False
     _attr_supported_features = (
-        MediaPlayerEntityFeature.SELECT_SOURCE
+        MediaPlayerEntityFeature.NEXT_TRACK
+        | MediaPlayerEntityFeature.SELECT_SOURCE
         | MediaPlayerEntityFeature.TURN_OFF
         | MediaPlayerEntityFeature.TURN_ON
         | MediaPlayerEntityFeature.VOLUME_MUTE
@@ -167,6 +168,15 @@ class Z906MediaPlayer(RestoreEntity, MediaPlayerEntity):
             self.hass,
             self._emitter_entity_id,
             "volume_down",
+            context=self._context,
+        )
+
+    async def async_media_next_track(self) -> None:
+        """Send the cyclic next effect command."""
+        await async_send_z906(
+            self.hass,
+            self._emitter_entity_id,
+            "effect",
             context=self._context,
         )
 
