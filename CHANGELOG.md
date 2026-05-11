@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [0.4.0] - 2026-05-11
+
+### Changed
+
+- Changed media player power and mute to explicit commanded-state semantics.
+- `turn_on`, `turn_off`, `mute`, and `unmute` now always transmit their toggle IR command when explicitly requested.
+- The stored assumed state is updated to the commanded target state after transmission.
+- This prevents voice commands from being silently ignored after state drift or routine mains-power cuts.
+
 ## [0.3.1] - 2026-05-11
 
 ### Changed
