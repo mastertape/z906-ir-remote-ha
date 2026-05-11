@@ -91,10 +91,11 @@ z906_ir_remote_ha:
   emitter_entity_id: infrared.xiao_smart_ir_mate_ir_proxy_transmitter
 ```
 
-This creates a media player entity named:
+This creates a media player entity and a stateless level button:
 
 ```text
 media_player.logitech_z906
+button.logitech_z906_level
 ```
 
 The default `emitter_entity_id` is already
@@ -145,6 +146,7 @@ The integration exposes a real `media_player` entity with:
 - optimistic mute / unmute
 - source list
 - source selection
+- next effect
 - volume up
 - volume down
 
@@ -234,8 +236,17 @@ active at runtime but had not yet been retained by a normal clean power-off
 cycle. The integration does not add artificial commit or resync behavior; it
 only documents this observed hardware behavior.
 
-Volume is relative only. Effect and level selection are cyclical/contextual. The
-media player therefore still does not expose absolute volume or sound modes.
+Volume is relative only. The Z906 effect command is a stateless cyclic next
+effect button. The media player exposes it as `media_player.media_next_track`,
+because the behavior is closest to moving to the next item in a cycle. Every
+call sends IR; no current effect is stored or assumed.
+
+Level selection is cyclical/contextual and does not fit a standard media player
+semantic well. The integration exposes it as a separate stateless button entity
+instead of forcing it into `sound_mode`.
+
+The media player therefore still does not expose absolute volume or sound
+modes.
 
 ## Media Player Actions
 
@@ -299,6 +310,22 @@ Volume down:
 action: media_player.volume_down
 target:
   entity_id: media_player.logitech_z906
+```
+
+Next effect:
+
+```yaml
+action: media_player.media_next_track
+target:
+  entity_id: media_player.logitech_z906
+```
+
+Level:
+
+```yaml
+action: button.press
+target:
+  entity_id: button.logitech_z906_level
 ```
 
 ## Low-Level Services
