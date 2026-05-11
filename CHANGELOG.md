@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [0.5.0] - 2026-05-11
+
+### Added
+
+- Added `MediaPlayerEntityFeature.NEXT_TRACK` to the receiver media player.
+- Added `async_media_next_track()` to always send the stateless cyclic Logitech Z906 `effect` IR command.
+- Added a stateless `button` entity for the Logitech Z906 `level` IR command.
+
+### Unchanged
+
+- No assumed effect state, `sound_mode`, or fake selectable sound-mode list was added.
+- The low-level services and existing command mappings remain unchanged.
+
 ## [0.4.3] - 2026-05-11
 
 ### Changed
