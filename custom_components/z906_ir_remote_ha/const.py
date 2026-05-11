@@ -5,10 +5,14 @@ from __future__ import annotations
 DOMAIN = "z906_ir_remote_ha"
 
 CONF_EMITTER_ENTITY_ID = "emitter_entity_id"
+CONF_INITIAL_MUTE_STATE = "initial_mute_state"
+CONF_INITIAL_POWER_STATE = "initial_power_state"
 CONF_SOURCES = "sources"
 
 DEFAULT_NAME = "Logitech Z906"
 DEFAULT_EMITTER = "infrared.xiao_smart_ir_mate_ir_proxy_transmitter"
+DEFAULT_INITIAL_MUTE_STATE = "off"
+DEFAULT_INITIAL_POWER_STATE = "on"
 
 Z906_ADDRESS = 0xA002
 Z906_MODULATION = 38650
