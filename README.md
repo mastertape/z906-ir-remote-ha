@@ -1,4 +1,4 @@
-# Z906 IR Remote HA
+# Logitech Z906 IR Proxy for Home Assistant
 
 Beta-quality Home Assistant custom integration for controlling a Logitech Z906
 speaker system through the Home Assistant `infrared` entity platform.
@@ -60,7 +60,7 @@ Click the button above to open this repository in HACS:
 
 1. Select `Open link`.
 2. Confirm adding the custom repository if Home Assistant asks.
-3. In HACS, download `Z906 IR Remote HA`.
+3. In HACS, download `Logitech Z906 IR Proxy`.
 4. Restart Home Assistant.
 
 If the button does not work, add the repository manually:
