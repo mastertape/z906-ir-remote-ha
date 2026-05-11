@@ -77,6 +77,8 @@ Optional beta configuration:
 z906_ir_remote_ha:
   name: Logitech Z906
   emitter_entity_id: infrared.xiao_smart_ir_mate_ir_proxy_transmitter
+  initial_power_state: on
+  initial_mute_state: off
   sources:
     input_1: INPUT 1
     input_2: INPUT 2
@@ -100,6 +102,9 @@ The default source names are intentionally assistant-friendly:
 The integration exposes a real `media_player` entity with:
 
 - `device_class: receiver`
+- optimistic turn on
+- optimistic turn off
+- optimistic mute / unmute
 - source list
 - source selection
 - volume up
@@ -107,20 +112,102 @@ The integration exposes a real `media_player` entity with:
 
 It deliberately does not expose:
 
-- turn on / turn off
-- mute
 - absolute volume percentage
 - sound mode
 
 The Z906 is IR-only and has no feedback channel. The known power and mute
-commands are toggles, not verified discrete on/off commands. Volume is relative
-only. Effect and level selection are cyclical/contextual. The media player
-therefore only advertises features it can honestly perform.
+commands are toggles, not verified discrete on/off commands. This integration
+therefore implements power and mute as deliberate optimistic assumed-state
+features on the `media_player` entity itself.
+
+The media player's own stored state is the integration's state memory:
+
+- if Home Assistant assumes the receiver is off and `turn_on` is requested,
+  the integration sends `power_toggle` and stores the state as on
+- if Home Assistant assumes the receiver is on and `turn_off` is requested,
+  the integration sends `power_toggle` and stores the state as off
+- if the requested power state already matches the assumed state, no IR command
+  is sent
+- if Home Assistant assumes the receiver is unmuted and mute is requested,
+  the integration sends `mute` and stores muted as true
+- if Home Assistant assumes the receiver is muted and unmute is requested,
+  the integration sends `mute` and stores muted as false
+- if the requested mute state already matches the assumed mute state, no IR
+  command is sent
+
+This is the intended operating model for this IR-only receiver. It gives
+HomeKit, Siri, Alexa, Google Assistant, and Assist one proper receiver entity to
+control. No separate helper switch, button, or script is required for power or
+mute.
+
+The assumed state can drift if the Z906 is controlled outside this integration,
+for example with the original remote or front-panel controls. If that happens,
+issue the desired explicit command once, such as "turn on", "turn off", "mute",
+or "unmute". Home Assistant will store that requested state again.
+
+On first boot only, before a previous Home Assistant state has been restored,
+the optional defaults are used:
+
+```yaml
+z906_ir_remote_ha:
+  initial_power_state: on
+  initial_mute_state: off
+```
+
+Restored Home Assistant state always takes precedence over these initial
+defaults.
+
+Observed Z906 behavior makes this optimistic power model practical: if the Z906
+was turned off normally and mains power is removed and restored, it remains off;
+if it was on, it powers back on. Inputs and similar settings can be retained
+after a later normal power-off cycle.
 
 Current source is stored optimistically after `select_source`, because the Z906
-has discrete direct input IR commands but no feedback channel.
+has discrete direct input IR commands but no feedback channel. After a hard
+power loss, the optimistic source may drift if the most recent source change had
+not yet been persisted by a normal power-off cycle. The integration does not add
+artificial commit or resync behavior; it only documents this hardware behavior.
+
+Volume is relative only. Effect and level selection are cyclical/contextual. The
+media player therefore still does not expose absolute volume or sound modes.
 
 ## Media Player Actions
+
+Turn on:
+
+```yaml
+action: media_player.turn_on
+target:
+  entity_id: media_player.logitech_z906
+```
+
+Turn off:
+
+```yaml
+action: media_player.turn_off
+target:
+  entity_id: media_player.logitech_z906
+```
+
+Mute:
+
+```yaml
+action: media_player.volume_mute
+target:
+  entity_id: media_player.logitech_z906
+data:
+  is_volume_muted: true
+```
+
+Unmute:
+
+```yaml
+action: media_player.volume_mute
+target:
+  entity_id: media_player.logitech_z906
+data:
+  is_volume_muted: false
+```
 
 Select source:
 
@@ -215,6 +302,10 @@ No separate Alexa or Google code is needed. The integration exposes one honest
 Home Assistant receiver entity and lets Home Assistant's cloud/assistant
 integrations consume it.
 
+Power and mute are part of the receiver media player itself, so HomeKit, Siri,
+Alexa, Google Assistant, and Assist should target `media_player.logitech_z906`
+directly. Do not create separate helper switches for power or mute.
+
 ## Manual Installation
 
 Copy this directory:
@@ -245,6 +336,7 @@ Possible future improvements:
 - verify whether discrete power on/off IR codes exist
 - verify whether discrete mute on/off IR codes exist
 - verify whether true absolute volume is possible
+- expose a deliberate state reset/calibration workflow if that proves useful
 - decide whether source-name customization should stay YAML-only or move to a
   config flow
 - add a config flow once the beta behavior has settled
