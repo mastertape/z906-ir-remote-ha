@@ -17,6 +17,8 @@ architecture introduced in Home Assistant 2026.4:
 It does not add Logitech-specific buttons to ESPHome YAML and does not call
 ESPHome services directly.
 
+See [CHANGELOG.md](CHANGELOG.md) for release history.
+
 ## Requirements
 
 - Home Assistant 2026.5.0 or newer.
@@ -157,16 +159,37 @@ z906_ir_remote_ha:
 Restored Home Assistant state always takes precedence over these initial
 defaults.
 
-Observed Z906 behavior makes this optimistic power model practical: if the Z906
-was turned off normally and mains power is removed and restored, it remains off;
-if it was on, it powers back on. Inputs and similar settings can be retained
-after a later normal power-off cycle.
+Observed behavior on a real stock Z906, and independent technical
+reverse-engineering by Simon Arlott, indicate that when mains power is removed
+and later restored the stock unit comes back physically off / in standby. This
+is not documented here as an official Logitech manufacturer guarantee; it is
+documented as observed real-device behavior and supported by independent
+technical analysis. In practice this means a mains outage can make Home
+Assistant's assumed power state drift if Home Assistant had stored the receiver
+as on before the outage.
+
+The existing low-level service is the intended manual recovery tool when the
+physical power state and Home Assistant's assumed state are known to be out of
+sync. It sends only the physical IR toggle and does not change the stored media
+player state:
+
+```yaml
+action: z906_ir_remote_ha.send_z906
+data:
+  command: power_toggle
+```
+
+Example: if Home Assistant thinks the receiver is on but a mains outage left
+the real Z906 physically off, call `z906_ir_remote_ha.send_z906` with
+`power_toggle` once. The physical receiver turns on while Home Assistant remains
+on, so the model is synchronized again.
 
 Current source is stored optimistically after `select_source`, because the Z906
 has discrete direct input IR commands but no feedback channel. After a hard
-power loss, the optimistic source may drift if the most recent source change had
-not yet been persisted by a normal power-off cycle. The integration does not add
-artificial commit or resync behavior; it only documents this hardware behavior.
+power loss, the optimistic source may drift if the most recent source change was
+active at runtime but had not yet been retained by a normal clean power-off
+cycle. The integration does not add artificial commit or resync behavior; it
+only documents this observed hardware behavior.
 
 Volume is relative only. Effect and level selection are cyclical/contextual. The
 media player therefore still does not expose absolute volume or sound modes.
