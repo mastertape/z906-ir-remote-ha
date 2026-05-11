@@ -23,9 +23,36 @@ See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 - Home Assistant 2026.5.0 or newer.
 - HACS installed, unless installing manually.
-- An `infrared.*` transmitter entity.
-- Tested target setup: ESPHome IR/RF proxy transmitter exposed as
+- Any compatible Home Assistant `infrared.*` transmitter entity.
+- Tested reference setup: Seeed Studio XIAO IR Mate running ESPHome IR/RF
+  proxy firmware, exposed in Home Assistant as
   `infrared.xiao_smart_ir_mate_ir_proxy_transmitter`.
+
+## IR Hardware
+
+This integration is transport-agnostic. It does not know or care whether the IR
+emitter is a Seeed device, another ESPHome proxy, or a future Home Assistant
+infrared emitter. The only hardware contract is a Home Assistant entity in the
+`infrared` domain that can transmit commands.
+
+The tested reference emitter is a Seeed Studio XIAO IR Mate flashed with the
+official ESPHome IR/RF proxy firmware. ESPHome lists the XIAO IR Mate on its
+official [Ready-Made Projects](https://esphome.io/projects/?type=irrf) page
+under `Infrared & radio frequency proxy`, describes it as a small infrared
+emitter, and notes that these ready-made projects are adoptable in the ESPHome
+dashboard with YAML configuration available on GitHub.
+
+The recommended firmware source for reproducing the tested setup is the
+official
+[ESPHome infrared-proxies repository](https://github.com/esphome/infrared-proxies),
+which hosts YAML configurations for a curated set of known, tested devices that
+can serve as infrared proxies for Home Assistant.
+
+This is different from the older Seeed factory slot-based firmware with
+`Signal0` ... `Signal9`, `Learn`, and `Send` style controls. That older
+factory interface is not the architecture used here. This integration requires
+a real Home Assistant `infrared.*` emitter entity so commands can flow through
+Home Assistant's official infrared API.
 
 ## Installation with HACS
 
