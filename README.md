@@ -130,6 +130,11 @@ The default source names are intentionally assistant-friendly:
 - `COAX 1` = digital coaxial input 5
 - `AUX 1` = front-panel aux input
 
+You can also use the `sources:` block to name inputs after the devices you
+actually connected, for example `PC`, `TV`, `Apple TV`, or `PlayStation`. The
+default names are chosen for broad assistant compatibility, especially Alexa,
+so custom names may behave differently with voice assistants.
+
 ## Media Player
 
 The integration exposes a real `media_player` entity with:
