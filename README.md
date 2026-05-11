@@ -419,6 +419,80 @@ Then add this to YAML and restart Home Assistant:
 z906_ir_remote_ha:
 ```
 
+## Sources and Acknowledgements
+
+This project is an independent Home Assistant custom integration. The
+references below document the public APIs, libraries, protocol facts, command
+data, and hardware behavior research that informed the implementation. Unless
+explicitly stated otherwise, this repository does not include copied code or
+configuration from the projects and discussions listed here.
+
+### Home Assistant and ESPHome
+
+This integration uses Home Assistant's infrared consumer/emitter architecture
+and sends commands through `infrared.async_send_command(...)`. Command objects
+are encoded with the `infrared-protocols` Python library, which is used as a
+normal dependency.
+
+The tested reference emitter during development was a Seeed Studio XIAO IR Mate
+running the official ESPHome IR/RF proxy firmware. This project remains
+transport-agnostic: it targets compatible Home Assistant `infrared.*` emitter
+entities and is not tied to one specific IR blaster.
+
+Thanks to the Home Assistant and ESPHome projects for the infrared architecture,
+the proxy firmware work, and the documentation that makes consumer integrations
+like this possible.
+
+### Logitech Z906 Infrared Command Research
+
+The Logitech Z906 command set used here was assembled and cross-checked from
+public community research, especially `pladaria`'s Logitech Z906 IR-code gist,
+which also points to earlier hifi-remote.com and RemoteCentral discussions.
+
+Special thanks to the public contributors in that research thread, including:
+
+- `pladaria` for collecting the Z906 protocol and command data.
+- `rafales` for the carrier-frequency note.
+- `valentinkauf` for notes about converted/reversed values for transmission.
+- `hatl` for LIRC-style data and working ESPHome examples.
+- `tomaszkoc` for Broadlink/Home Assistant conversion notes and related tooling
+  references.
+
+This project is not a copy of the older ESPHome button-based examples. It uses
+publicly documented Z906 command knowledge in a Home Assistant consumer
+integration that sends through the official infrared abstraction.
+
+### Device Behavior Research
+
+Simon Arlott's independent reverse-engineering article about modifying the
+Logitech Z906 console/firmware helped document the stock standby-after-mains
+behavior. That behavior also matched testing on the maintainer's real unit. It
+is documented here as independent technical analysis and observed behavior, not
+as an official Logitech manufacturer guarantee.
+
+### Trademarks and Independence
+
+Logitech and Z906 are trademarks of their respective owner. This project is
+independent and is not affiliated with, sponsored by, or endorsed by Logitech.
+
+### References
+
+- [Home Assistant infrared entity developer documentation](https://developers.home-assistant.io/docs/core/entity/infrared/)
+- [Home Assistant developer blog: New infrared entity platform for IR device integrations](https://developers.home-assistant.io/blog/2026/03/30/infrared-entity-platform/)
+- [`home-assistant-libs/infrared-protocols`](https://github.com/home-assistant-libs/infrared-protocols)
+- [ESPHome Ready-Made Projects: Infrared & radio frequency proxy](https://esphome.io/projects/?type=irrf)
+- [`esphome/infrared-proxies`](https://github.com/esphome/infrared-proxies)
+- [`pladaria` Logitech Z906 IR-code gist](https://gist.github.com/pladaria/f8a1ce754f1ed3022b78f8a302d463b5)
+- [LIRC remote database](https://lirc.sourceforge.net/remotes/)
+- [`molexx/irdb2broadlinkha`](https://github.com/molexx/irdb2broadlinkha)
+- [Simon Arlott: Modifying Logitech Z906 speakers](https://nom.is/2021/03/04/modifying-logitech-z906-speakers)
+- [Logitech Z906 technical specifications](https://support.logi.com/hc/en-us/articles/360023466353-Z906-Technical-Specifications)
+- [Logitech support: Connecting a computer to the Z906](https://support.logi.com/hc/en-us/articles/360023401833-Connecting-a-computer-to-the-Z906)
+
+## License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE).
+
 ## Scope and Future TODOs
 
 This is intentionally still small. It does not provide a config flow, UI, broad

@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [0.5.1] - 2026-05-11
+
+### Added
+
+- Added the Apache License, Version 2.0 as the explicit project license.
+- Added README license documentation.
+- Added README source attribution and acknowledgements for Home Assistant,
+  ESPHome, Logitech Z906 IR-code community research, and device-behavior
+  reverse-engineering references.
+
+### Unchanged
+
+- No runtime behavior changed.
+- Media player behavior, command mappings, source labels, services, and entity
+  features remain unchanged.
+
 ## [0.5.0] - 2026-05-11
 
 ### Added
