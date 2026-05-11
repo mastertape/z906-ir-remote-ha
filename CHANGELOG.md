@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [0.4.1] - 2026-05-11
+
+### Changed
+
+- Improved README hardware/setup documentation with official ESPHome IR/RF proxy references.
+- Clarified that the integration is transport-agnostic and targets any compatible Home Assistant `infrared.*` emitter entity.
+- Documented the Seeed Studio XIAO IR Mate with official ESPHome IR/RF proxy firmware as the tested reference emitter, not as a hard dependency.
+- Distinguished the official ESPHome IR/RF proxy firmware from the older Seeed factory slot-based firmware.
+
 ## [0.4.0] - 2026-05-11
 
 ### Changed
