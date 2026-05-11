@@ -82,7 +82,7 @@ CONFIG_SCHEMA = vol.Schema(
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
-    """Set up Z906 IR services and media player."""
+    """Set up Z906 IR services and entities."""
     domain_config = config.get(DOMAIN) or {}
     discovery_config = {
         CONF_EMITTER_ENTITY_ID: domain_config.get(
@@ -136,6 +136,13 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     await discovery.async_load_platform(
         hass,
         Platform.MEDIA_PLAYER,
+        DOMAIN,
+        discovery_config,
+        config,
+    )
+    await discovery.async_load_platform(
+        hass,
+        Platform.BUTTON,
         DOMAIN,
         discovery_config,
         config,
