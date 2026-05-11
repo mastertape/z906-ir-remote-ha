@@ -1,4 +1,4 @@
-"""Infrared command helpers for the Z906 IR Remote HA integration."""
+"""Infrared command helpers for the Logitech Z906 IR Proxy integration."""
 
 from __future__ import annotations
 
