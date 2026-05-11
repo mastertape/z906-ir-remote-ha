@@ -1,4 +1,4 @@
-"""Z906 IR Remote HA integration."""
+"""Logitech Z906 IR Proxy integration."""
 
 from __future__ import annotations
 
