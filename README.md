@@ -124,28 +124,38 @@ features on the `media_player` entity itself.
 
 The media player's own stored state is the integration's state memory:
 
-- if Home Assistant assumes the receiver is off and `turn_on` is requested,
-  the integration sends `power_toggle` and stores the state as on
-- if Home Assistant assumes the receiver is on and `turn_off` is requested,
-  the integration sends `power_toggle` and stores the state as off
-- if the requested power state already matches the assumed state, no IR command
-  is sent
-- if Home Assistant assumes the receiver is unmuted and mute is requested,
-  the integration sends `mute` and stores muted as true
-- if Home Assistant assumes the receiver is muted and unmute is requested,
-  the integration sends `mute` and stores muted as false
-- if the requested mute state already matches the assumed mute state, no IR
-  command is sent
+- `turn_on` always sends `power_toggle` and then stores the state as on
+- `turn_off` always sends `power_toggle` and then stores the state as off
+- mute always sends `mute` and then stores muted as true
+- unmute always sends `mute` and then stores muted as false
 
 This is the intended operating model for this IR-only receiver. It gives
 HomeKit, Siri, Alexa, Google Assistant, and Assist one proper receiver entity to
 control. No separate helper switch, button, or script is required for power or
 mute.
 
+The user command is treated as the best available real-world state signal: the
+human is effectively the sensor. If someone says "turn on", the integration
+assumes they can see or hear that the receiver is currently off, so it sends IR
+even if the old stored Home Assistant state already said on. This prevents voice
+commands such as "Ton an" and "Ton aus" from being silently ignored after drift
+or routine mains-power cuts.
+
+This is not a generic toggle UI. The exposed interface remains `turn_on`,
+`turn_off`, mute, and unmute because humans naturally command target states, not
+raw toggles.
+
 The assumed state can drift if the Z906 is controlled outside this integration,
 for example with the original remote or front-panel controls. If that happens,
 issue the desired explicit command once, such as "turn on", "turn off", "mute",
 or "unmute". Home Assistant will store that requested state again.
+
+Important trade-off: because the physical hardware only has toggle codes and no
+feedback, issuing `turn_on` while the real Z906 is already on will physically
+turn it off; issuing `turn_off` while it is already off will physically turn it
+on. The chosen trade-off for this integration is to never silently ignore an
+explicit user command and to let human observation correct the assumed state
+through normal use.
 
 On first boot only, before a previous Home Assistant state has been restored,
 the optional defaults are used:
@@ -168,10 +178,9 @@ technical analysis. In practice this means a mains outage can make Home
 Assistant's assumed power state drift if Home Assistant had stored the receiver
 as on before the outage.
 
-The existing low-level service is the intended manual recovery tool when the
-physical power state and Home Assistant's assumed state are known to be out of
-sync. It sends only the physical IR toggle and does not change the stored media
-player state:
+The existing low-level service remains available as a laboratory/manual tool. It
+sends only the physical IR toggle and does not change the stored media player
+state:
 
 ```yaml
 action: z906_ir_remote_ha.send_z906
@@ -179,10 +188,8 @@ data:
   command: power_toggle
 ```
 
-Example: if Home Assistant thinks the receiver is on but a mains outage left
-the real Z906 physically off, call `z906_ir_remote_ha.send_z906` with
-`power_toggle` once. The physical receiver turns on while Home Assistant remains
-on, so the model is synchronized again.
+For ordinary use after drift, prefer the media player command that matches what
+you want physically, such as `media_player.turn_on` when the receiver is off.
 
 Current source is stored optimistically after `select_source`, because the Z906
 has discrete direct input IR commands but no feedback channel. After a hard
