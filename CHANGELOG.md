@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [0.4.2] - 2026-05-11
+
+### Changed
+
+- Renamed the visible project/HACS/integration display name to `Logitech Z906 IR Proxy`.
+- Kept the Home Assistant domain `z906_ir_remote_ha` unchanged for backward compatibility with existing YAML, services, and entity history.
+
 ## [0.4.1] - 2026-05-11
 
 ### Changed
