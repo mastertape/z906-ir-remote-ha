@@ -1,0 +1,60 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+This project follows a simple Keep a Changelog-style format.
+
+## [0.3.1] - 2026-05-11
+
+### Changed
+
+- Corrected documentation for Logitech Z906 behavior after mains power loss.
+- Removed the incorrect statement that the stock Z906 restores the previous on/off state after mains power is restored.
+- Documented that a stock Z906 returns physically off / in standby after mains power is restored, based on user testing and independent reverse-engineering notes.
+- Documented possible optimistic Home Assistant power-state drift after mains restoration.
+- Documented manual recovery with the existing low-level `z906_ir_remote_ha.send_z906` service and `power_toggle` command.
+- Added this changelog and linked it from the README.
+
+### Unchanged
+
+- No runtime media player behavior changed.
+- Optimistic power and mute remain intentional media player features.
+- Existing low-level services remain unchanged.
+
+## [0.3.0] - 2026-05-11
+
+### Added
+
+- Added optimistic media player power support with `turn_on` and `turn_off`.
+- Added optimistic media player mute support with `volume_mute`.
+- Added restored assumed power, mute, and selected-source state.
+- Added `initial_power_state` YAML option for first boot before state restore exists.
+- Added `initial_mute_state` YAML option for first boot before state restore exists.
+
+## [0.2.0] - 2026-05-11
+
+### Added
+
+- Added a real `media_player` receiver entity for the Logitech Z906.
+- Added source selection through the known direct input IR commands.
+- Added relative volume up/down support through the media player entity.
+- Added assistant-compatible default source names:
+  - `INPUT 1`
+  - `INPUT 2`
+  - `OPTICAL 1`
+  - `OPTICAL 2`
+  - `COAX 1`
+  - `AUX 1`
+- Added optional YAML customization for media player name, emitter entity, and source labels.
+
+## [0.1.0] - 2026-05-10
+
+### Added
+
+- Initial Home Assistant custom integration proof of concept.
+- Added generic NEC / extended NEC service: `z906_ir_remote_ha.send_nec`.
+- Added Logitech Z906 command service: `z906_ir_remote_ha.send_z906`.
+- Used `infrared-protocols` to create NEC command objects.
+- Sent commands through Home Assistant's official `infrared.async_send_command(...)` helper.
+- Kept IR hardware replaceable through a selected `infrared.*` emitter entity.
+- Preserved the Home Assistant 2026.4+ infrared architecture without ESPHome-specific command buttons or direct ESPHome service calls.
