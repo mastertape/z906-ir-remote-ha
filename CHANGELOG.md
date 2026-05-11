@@ -9,6 +9,7 @@ This project follows a simple Keep a Changelog-style format.
 ### Changed
 
 - Clarified that the XIAO IR Mate should be flashed from the ESPHome Ready-Made Projects page with the ESPHome IR/RF proxy firmware.
+- Added the concrete Ready-Made Projects flow: choose `Infrared & radio frequency proxy`, pick `XIAO IR Mate`, and press `Connect`.
 - Documented that the factory demo firmware is not enough because this integration requires a real Home Assistant `infrared.*` emitter entity.
 
 ## [0.4.2] - 2026-05-11
