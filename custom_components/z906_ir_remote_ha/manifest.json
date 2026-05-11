@@ -1,7 +1,7 @@
 {
   "domain": "z906_ir_remote_ha",
   "name": "Logitech Z906 IR Proxy",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "documentation": "https://github.com/mastertape/z906-ir-remote-ha",
   "issue_tracker": "https://github.com/mastertape/z906-ir-remote-ha/issues",
   "dependencies": ["infrared"],
