@@ -13,8 +13,12 @@ from homeassistant.helpers.typing import ConfigType
 
 from .const import (
     CONF_EMITTER_ENTITY_ID,
+    CONF_INITIAL_MUTE_STATE,
+    CONF_INITIAL_POWER_STATE,
     CONF_SOURCES,
     DEFAULT_EMITTER,
+    DEFAULT_INITIAL_MUTE_STATE,
+    DEFAULT_INITIAL_POWER_STATE,
     DEFAULT_NAME,
     DOMAIN,
     Z906_COMMANDS,
@@ -60,6 +64,8 @@ SEND_Z906_SCHEMA = vol.Schema(
 DOMAIN_CONFIG_SCHEMA = vol.Schema(
     {
         vol.Optional(CONF_EMITTER_ENTITY_ID): _infrared_entity_id,
+        vol.Optional(CONF_INITIAL_MUTE_STATE): vol.In(("on", "off")),
+        vol.Optional(CONF_INITIAL_POWER_STATE): vol.In(("on", "off")),
         vol.Optional(CONF_NAME): cv.string,
         vol.Optional(CONF_SOURCES): vol.Schema(
             {vol.Optional(command): cv.string for command in Z906_SOURCE_COMMANDS}
@@ -81,6 +87,12 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     discovery_config = {
         CONF_EMITTER_ENTITY_ID: domain_config.get(
             CONF_EMITTER_ENTITY_ID, DEFAULT_EMITTER
+        ),
+        CONF_INITIAL_MUTE_STATE: domain_config.get(
+            CONF_INITIAL_MUTE_STATE, DEFAULT_INITIAL_MUTE_STATE
+        ),
+        CONF_INITIAL_POWER_STATE: domain_config.get(
+            CONF_INITIAL_POWER_STATE, DEFAULT_INITIAL_POWER_STATE
         ),
         CONF_NAME: domain_config.get(CONF_NAME, DEFAULT_NAME),
         CONF_SOURCES: domain_config.get(CONF_SOURCES, {}),
