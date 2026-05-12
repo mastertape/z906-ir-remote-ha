@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/mastertape/z906-ir-remote-ha/main/custom_components/z906_ir_remote_ha/brand/logo.png" alt="Logitech Z906 IR Remote for Home Assistant" width="620">
-</p>
+![Logitech Z906 IR Remote for Home Assistant](https://github.com/mastertape/z906-ir-remote-ha/raw/main/custom_components/z906_ir_remote_ha/brand/logo.png)
 
 # Logitech Z906 IR Remote for Home Assistant
 
