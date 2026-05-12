@@ -2,8 +2,9 @@
 
 # Logitech Z906 IR Remote for Home Assistant
 
-Home Assistant custom integration for controlling a Logitech Z906 speaker
-system through the Home Assistant `infrared` entity platform.
+Home Assistant custom integration that adds a Logitech Z906 speaker system as a
+`media_player` receiver entity and controls it through the Home Assistant
+`infrared` entity platform.
 
 [![Open your Home Assistant instance and open this repository in HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=mastertape&repository=z906-ir-remote-ha&category=integration)
 

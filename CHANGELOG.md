@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [1.0.0] - 2026-05-12
+
+### Changed
+
+- Clarified the opening README description to state immediately that the
+  integration adds the Logitech Z906 as a Home Assistant `media_player`
+  receiver entity.
+- Marked the project as the first stable HACS submission release.
+- Updated the integration manifest version to `1.0.0`.
+
+### Unchanged
+
+- No runtime behavior changed.
+- Media player behavior, command mappings, source labels, services, and entity
+  features remain unchanged.
+
 ## [0.5.5] - 2026-05-12
 
 ### Changed
