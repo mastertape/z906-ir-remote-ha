@@ -97,6 +97,8 @@ Current in-repository preparation:
 - HACS metadata is present in `hacs.json`.
 - The integration manifest includes the HACS-required metadata keys.
 - HACS validation and Hassfest GitHub Actions are included.
+- Local brand images are included in
+  `custom_components/z906_ir_remote_ha/brand/`.
 - Releases should be used for versioned installs.
 
 Remaining external maintainer steps for possible HACS default inclusion:
@@ -112,8 +114,9 @@ Remaining external maintainer steps for possible HACS default inclusion:
 - Open a later PR to `hacs/default` only after validation passes.
 
 For a future brands entry, do not use Logitech logos or other trademarked brand
-assets without permission. Prefer a neutral custom symbol, such as an IR emitter
-or speaker icon, and keep the trademark disclaimer in this README.
+assets without permission. The local brand images in this repository use a
+neutral custom IR/speaker symbol, and the trademark disclaimer in this README
+should remain in place.
 
 ## Configuration
 

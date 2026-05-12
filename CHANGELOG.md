@@ -17,12 +17,14 @@ This project follows a simple Keep a Changelog-style format.
   maintainer steps.
 - Sorted `manifest.json` keys for Hassfest validation.
 - Configured HACS validation to ignore repository settings that must be handled
-  outside the repository: brands, description, and topics.
+  outside the repository: description and topics.
 
 ### Added
 
 - Added a HACS validation GitHub Actions workflow.
 - Added a Hassfest GitHub Actions workflow.
+- Added neutral local brand images for Home Assistant/HACS custom integration
+  display.
 
 ### Unchanged
 
