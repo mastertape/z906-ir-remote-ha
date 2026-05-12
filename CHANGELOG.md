@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [0.5.3] - 2026-05-12
+
+### Changed
+
+- Updated README wording from beta-oriented language to HACS-ready custom
+  repository language.
+- Clarified that the repository is structured as a candidate for later HACS
+  default-repository submission.
+- Documented that HACS validation must pass without ignored checks before a
+  default-repository PR.
+- Renamed `Optional beta configuration` to `Optional configuration`.
+- Removed the temporary HACS Action ignores for repository description and
+  topics so the workflow reflects default-repository readiness once GitHub
+  repository settings are completed.
+- Updated the integration manifest version to `0.5.3`.
+
+### Unchanged
+
+- No runtime behavior changed.
+- Media player behavior, command mappings, source labels, services, and entity
+  features remain unchanged.
+
 ## [0.5.2] - 2026-05-12
 
 ### Changed

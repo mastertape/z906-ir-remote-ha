@@ -4,13 +4,13 @@
 
 # Logitech Z906 IR Remote for Home Assistant
 
-Beta-quality Home Assistant custom integration for controlling a Logitech Z906
-speaker system through the Home Assistant `infrared` entity platform.
+Home Assistant custom integration for controlling a Logitech Z906 speaker
+system through the Home Assistant `infrared` entity platform.
 
 [![Open your Home Assistant instance and open this repository in HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=mastertape&repository=z906-ir-remote-ha&category=integration)
 
-This integration is a consumer-side proof of the Home Assistant infrared
-architecture introduced in Home Assistant 2026.4:
+This integration is a focused consumer-side implementation of the Home
+Assistant infrared architecture introduced in Home Assistant 2026.4:
 
 1. Logitech Z906 device/protocol knowledge lives in Home Assistant.
 2. Commands are encoded with `infrared-protocols`.
@@ -20,6 +20,11 @@ architecture introduced in Home Assistant 2026.4:
 
 It does not add Logitech-specific buttons to ESPHome YAML and does not call
 ESPHome services directly.
+
+The project is intentionally narrow: it is for people who still have a Z906
+doing useful old-school receiver work, such as external 5.1 over optical,
+coaxial, or direct inputs, and want that device to behave like a proper Home
+Assistant receiver without replacing the hardware.
 
 See [CHANGELOG.md](CHANGELOG.md) for release history.
 
@@ -71,8 +76,9 @@ Click the button above to open this repository in HACS:
 3. In HACS, download `Logitech Z906 IR Remote`.
 4. Restart Home Assistant.
 
-This repository is installable today as a HACS custom repository. It is not yet
-part of the HACS default repositories.
+This repository is installable today as a HACS custom repository. It is being
+kept in a form suitable for a later HACS default-repository submission, but it
+is not part of the HACS default repositories yet.
 
 If the button does not work, add the repository manually as a custom repository:
 
@@ -93,8 +99,8 @@ If the button does not work, add the repository manually as a custom repository:
 
 ## HACS Publication Status
 
-This repository is being prepared for clean HACS custom-repository use and a
-possible later HACS default-repository submission.
+This repository is prepared for HACS custom-repository use and is structured as
+a candidate for later HACS default-repository submission.
 
 Current in-repository preparation:
 
@@ -103,9 +109,10 @@ Current in-repository preparation:
 - HACS validation and Hassfest GitHub Actions are included.
 - Local brand images are included in
   `custom_components/z906_ir_remote_ha/brand/`.
-- Releases should be used for versioned installs.
+- Versioned GitHub releases should be used for installs and updates.
 
-Remaining external maintainer steps for possible HACS default inclusion:
+Remaining external maintainer steps before opening a HACS default-repository
+submission:
 
 - Add a GitHub repository description, for example:
   `Home Assistant custom integration for Logitech Z906 over the new infrared entity platform`.
@@ -113,9 +120,11 @@ Remaining external maintainer steps for possible HACS default inclusion:
   `home-assistant`, `hacs`, `custom-component`, `infrared`, `ir`, `logitech`,
   `z906`, `esphome`, `media-player`.
 - Make sure GitHub Issues are enabled.
-- Create a full GitHub release, not only a tag.
+- Make sure the HACS validation and Hassfest workflows pass without ignored
+  checks.
+- Create a full GitHub release after validation passes, not only a tag.
 - Add the integration to `home-assistant/brands`.
-- Open a later PR to `hacs/default` only after validation passes.
+- Open a PR to `hacs/default` only after the checks above are complete.
 
 For a future brands entry, do not use Logitech logos or other trademarked brand
 assets without permission. The local brand images in this repository use a
@@ -145,7 +154,7 @@ The default `emitter_entity_id` is already
 z906_ir_remote_ha:
 ```
 
-Optional beta configuration:
+Optional configuration:
 
 ```yaml
 z906_ir_remote_ha:
@@ -287,6 +296,14 @@ instead of forcing it into `sound_mode`.
 
 The media player therefore still does not expose absolute volume or sound
 modes.
+
+The Logitech Z906 is a mature, IR-only receiver system. This integration keeps
+the Home Assistant model as close as practical to the available standard
+`media_player` semantics without inventing feedback or state that the hardware
+cannot provide. The cyclic Effect button is exposed as "next effect" because it
+is the closest standard media-player action for a stateless next-in-cycle IR
+command. The rarely used contextual Level button is exposed as a separate
+stateless button because it does not have a good media-player equivalent.
 
 ## Media Player Actions
 
@@ -546,5 +563,5 @@ Possible future improvements:
 - expose a deliberate state reset/calibration workflow if that proves useful
 - decide whether source-name customization should stay YAML-only or move to a
   config flow
-- add a config flow once the beta behavior has settled
+- add a config flow if YAML setup becomes limiting
 - add tests against Home Assistant's custom-component test helpers
