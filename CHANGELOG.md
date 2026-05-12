@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [0.5.5] - 2026-05-12
+
+### Changed
+
+- Documented the current HACS repository overview icon limitation for custom
+  integrations that ship local brand images.
+- Clarified that `home-assistant/brands` no longer accepts new custom
+  integration brand PRs and that this repository already ships local neutral
+  brand assets.
+- Updated the integration manifest version to `0.5.5`.
+
+### Unchanged
+
+- No runtime behavior changed.
+- Media player behavior, command mappings, source labels, services, and entity
+  features remain unchanged.
+
 ## [0.5.4] - 2026-05-12
 
 ### Changed
