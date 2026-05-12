@@ -15,6 +15,9 @@ This project follows a simple Keep a Changelog-style format.
   artifacts.
 - Documented HACS custom-repository status and remaining HACS default-repository
   maintainer steps.
+- Sorted `manifest.json` keys for Hassfest validation.
+- Configured HACS validation to ignore repository settings that must be handled
+  outside the repository: brands, description, and topics.
 
 ### Added
 

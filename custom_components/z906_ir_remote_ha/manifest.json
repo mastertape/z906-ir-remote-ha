@@ -1,12 +1,12 @@
 {
   "domain": "z906_ir_remote_ha",
   "name": "Logitech Z906 IR Remote",
-  "version": "0.5.2",
+  "codeowners": ["@mastertape"],
+  "dependencies": ["infrared"],
   "documentation": "https://github.com/mastertape/z906-ir-remote-ha",
+  "integration_type": "device",
+  "iot_class": "assumed_state",
   "issue_tracker": "https://github.com/mastertape/z906-ir-remote-ha/issues",
   "requirements": ["infrared-protocols==3.2.0"],
-  "dependencies": ["infrared"],
-  "codeowners": ["@mastertape"],
-  "integration_type": "device",
-  "iot_class": "assumed_state"
+  "version": "0.5.2"
 }
