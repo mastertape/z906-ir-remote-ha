@@ -1,5 +1,3 @@
-![Logitech Z906 IR Remote for Home Assistant](https://github.com/mastertape/z906-ir-remote-ha/raw/main/custom_components/z906_ir_remote_ha/brand/logo.png)
-
 # Logitech Z906 IR Remote for Home Assistant
 
 Home Assistant custom integration for controlling a Logitech Z906 speaker
