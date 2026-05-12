@@ -8,5 +8,5 @@
   "iot_class": "assumed_state",
   "issue_tracker": "https://github.com/mastertape/z906-ir-remote-ha/issues",
   "requirements": ["infrared-protocols==3.2.0"],
-  "version": "0.5.3"
+  "version": "0.5.4"
 }
