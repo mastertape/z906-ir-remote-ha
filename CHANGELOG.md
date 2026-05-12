@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [0.5.2] - 2026-05-12
+
+### Changed
+
+- Updated HACS display metadata to `Logitech Z906 IR Remote`.
+- Added `@mastertape` as the public manifest code owner.
+- Added the explicit runtime requirement `infrared-protocols==3.2.0`.
+- Expanded `.gitignore` for common Python and Home Assistant development
+  artifacts.
+- Documented HACS custom-repository status and remaining HACS default-repository
+  maintainer steps.
+
+### Added
+
+- Added a HACS validation GitHub Actions workflow.
+- Added a Hassfest GitHub Actions workflow.
+
+### Unchanged
+
+- No runtime behavior changed.
+- Media player behavior, command mappings, source labels, and services remain
+  unchanged.
+
 ## [0.5.1] - 2026-05-11
 
 ### Added

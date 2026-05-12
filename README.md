@@ -1,4 +1,4 @@
-# Logitech Z906 IR Proxy for Home Assistant
+# Logitech Z906 IR Remote for Home Assistant
 
 Beta-quality Home Assistant custom integration for controlling a Logitech Z906
 speaker system through the Home Assistant `infrared` entity platform.
@@ -58,29 +58,62 @@ not enough for this integration. This integration requires the ESPHome IR/RF
 proxy firmware, because Home Assistant must see a real `infrared.*` emitter
 entity so commands can flow through Home Assistant's official infrared API.
 
-## Installation with HACS
+## Installation via HACS
 
 Click the button above to open this repository in HACS:
 
 1. Select `Open link`.
 2. Confirm adding the custom repository if Home Assistant asks.
-3. In HACS, download `Logitech Z906 IR Proxy`.
+3. In HACS, download `Logitech Z906 IR Remote`.
 4. Restart Home Assistant.
 
-If the button does not work, add the repository manually:
+This repository is installable today as a HACS custom repository. It is not yet
+part of the HACS default repositories.
+
+If the button does not work, add the repository manually as a custom repository:
 
 1. Open HACS.
-2. Open the three-dot menu in the top right.
-3. Select `Custom repositories`.
-4. Add this repository URL:
+2. Go to `Integrations`.
+3. Open the three-dot menu in the top right.
+4. Select `Custom repositories`.
+5. Add this repository URL:
 
    ```text
    https://github.com/mastertape/z906-ir-remote-ha
    ```
 
-5. Select category `Integration`.
-6. Download the integration.
-7. Restart Home Assistant.
+6. Select category `Integration`.
+7. Download the integration.
+8. Restart Home Assistant.
+9. Add YAML configuration as documented below.
+
+## HACS Publication Status
+
+This repository is being prepared for clean HACS custom-repository use and a
+possible later HACS default-repository submission.
+
+Current in-repository preparation:
+
+- HACS metadata is present in `hacs.json`.
+- The integration manifest includes the HACS-required metadata keys.
+- HACS validation and Hassfest GitHub Actions are included.
+- Releases should be used for versioned installs.
+
+Remaining external maintainer steps for possible HACS default inclusion:
+
+- Add a GitHub repository description, for example:
+  `Home Assistant custom integration for Logitech Z906 over the new infrared entity platform`.
+- Add GitHub topics:
+  `home-assistant`, `hacs`, `custom-component`, `infrared`, `ir`, `logitech`,
+  `z906`, `esphome`, `media-player`.
+- Make sure GitHub Issues are enabled.
+- Create a full GitHub release, not only a tag.
+- Add the integration to `home-assistant/brands`.
+- Open a later PR to `hacs/default` only after validation passes.
+
+For a future brands entry, do not use Logitech logos or other trademarked brand
+assets without permission. Prefer a neutral custom symbol, such as an IR emitter
+or speaker icon, and keep the trademark disclaimer in this README.
 
 ## Configuration
 
