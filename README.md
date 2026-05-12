@@ -109,6 +109,13 @@ Current in-repository preparation:
   `custom_components/z906_ir_remote_ha/brand/`.
 - Versioned GitHub releases should be used for installs and updates.
 
+Note: Home Assistant 2026.3+ supports local brand images for custom
+integrations. The icon may still appear as `icon not available` in some HACS
+repository overview lists if that view uses the older
+`brands.home-assistant.io` CDN path instead of Home Assistant's local brands
+API. The integration itself ships local brand assets, and Home Assistant can use
+them in contexts that read the local brand folder.
+
 Remaining external maintainer steps before opening a HACS default-repository
 submission:
 
@@ -121,13 +128,12 @@ submission:
 - Make sure the HACS validation and Hassfest workflows pass without ignored
   checks.
 - Create a full GitHub release after validation passes, not only a tag.
-- Add the integration to `home-assistant/brands`.
 - Open a PR to `hacs/default` only after the checks above are complete.
 
-For a future brands entry, do not use Logitech logos or other trademarked brand
-assets without permission. The local brand images in this repository use a
-neutral custom IR/speaker symbol, and the trademark disclaimer in this README
-should remain in place.
+The `home-assistant/brands` repository no longer accepts new custom integration
+brand PRs. The local brand images in this repository use a neutral custom
+IR/speaker symbol and do not use Logitech logos or other trademarked brand
+assets.
 
 ## Configuration
 
