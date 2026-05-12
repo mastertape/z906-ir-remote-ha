@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="custom_components/z906_ir_remote_ha/brand/logo.png" alt="Logitech Z906 IR Remote for Home Assistant" width="620">
+</p>
+
 # Logitech Z906 IR Remote for Home Assistant
 
 Beta-quality Home Assistant custom integration for controlling a Logitech Z906
