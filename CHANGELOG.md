@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [1.0.1] - 2026-06-05
+
+### Fixed
+
+- Fixed a Home Assistant startup failure with newer `infrared-protocols`
+  versions where `NECCommand` is no longer exported from the top-level
+  `infrared_protocols` package.
+- Import `NECCommand` from `infrared_protocols.commands.nec`, matching the
+  current library structure.
+
+### Changed
+
+- Relaxed the `infrared-protocols` runtime requirement from `==3.2.0` to
+  `>=3.2.0`; the nested NEC command import path already exists in `3.2.0`.
+- Updated the integration manifest version to `1.0.1`.
+
+### Unchanged
+
+- No runtime command behavior changed.
+- Media player behavior, command mappings, source labels, services, and entity
+  features remain unchanged.
+
 ## [1.0.0] - 2026-05-12
 
 ### Changed

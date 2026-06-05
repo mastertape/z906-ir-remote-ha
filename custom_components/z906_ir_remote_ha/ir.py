@@ -5,7 +5,7 @@ from __future__ import annotations
 from homeassistant.components import infrared
 from homeassistant.core import Context, HomeAssistant
 
-from infrared_protocols import NECCommand
+from infrared_protocols.commands.nec import NECCommand
 
 from .const import Z906_ADDRESS, Z906_COMMANDS, Z906_MODULATION
 
