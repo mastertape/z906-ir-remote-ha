@@ -138,7 +138,19 @@ assets.
 
 ## Configuration
 
-Enable the integration from YAML. For Home Assistant packages:
+The integration now supports Home Assistant config entries. Existing YAML
+configuration is imported automatically on startup when Home Assistant loads the
+integration.
+
+For new installations, add the integration from the Home Assistant UI:
+
+1. Go to **Settings** -> **Devices & services**.
+2. Select **Add integration**.
+3. Search for **Logitech Z906 IR Remote**.
+4. Enter the infrared emitter entity and optional initial/source settings.
+
+Existing YAML configuration remains supported as an import source. For Home
+Assistant packages:
 
 ```yaml
 z906_ir_remote_ha:
@@ -158,6 +170,11 @@ The default `emitter_entity_id` is already
 ```yaml
 z906_ir_remote_ha:
 ```
+
+After the first successful YAML import, the receiver is represented as a Home
+Assistant config entry. Keep the YAML if you want Home Assistant to continue
+syncing these values on restart, or remove it after confirming the imported
+integration entry has the expected settings.
 
 Optional configuration:
 
@@ -480,6 +497,9 @@ Then add this to YAML and restart Home Assistant:
 ```yaml
 z906_ir_remote_ha:
 ```
+
+Alternatively, restart Home Assistant and add **Logitech Z906 IR Remote** from
+**Settings** -> **Devices & services**.
 
 ## Sources and Acknowledgements
 

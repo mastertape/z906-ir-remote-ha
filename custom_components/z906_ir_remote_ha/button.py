@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 from homeassistant.components.button import ButtonEntity
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_NAME
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
+from . import build_config
 from .const import CONF_EMITTER_ENTITY_ID, DEFAULT_NAME
 from .ir import async_send_z906
 
@@ -26,6 +28,15 @@ async def async_setup_platform(
         return
 
     async_add_entities([Z906LevelButton(discovery_info)])
+
+
+async def async_setup_entry(
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+    async_add_entities: AddEntitiesCallback,
+) -> None:
+    """Set up Logitech Z906 stateless command buttons from a config entry."""
+    async_add_entities([Z906LevelButton(build_config(entry.data))])
 
 
 class Z906LevelButton(ButtonEntity):
