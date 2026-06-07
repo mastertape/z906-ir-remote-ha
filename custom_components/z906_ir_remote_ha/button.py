@@ -10,7 +10,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
-from . import build_config
+from .config import build_config
 from .const import CONF_EMITTER_ENTITY_ID, DEFAULT_NAME
 from .ir import async_send_z906
 

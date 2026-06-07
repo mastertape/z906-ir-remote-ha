@@ -19,7 +19,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
-from . import build_config
+from .config import build_config
 from .const import (
     CONF_EMITTER_ENTITY_ID,
     CONF_INITIAL_MUTE_STATE,

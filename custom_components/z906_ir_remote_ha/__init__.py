@@ -87,21 +87,6 @@ CONFIG_SCHEMA = vol.Schema(
 )
 
 
-def build_config(data: dict) -> dict:
-    """Build a complete Z906 runtime config from partial user data."""
-    return {
-        CONF_EMITTER_ENTITY_ID: data.get(CONF_EMITTER_ENTITY_ID, DEFAULT_EMITTER),
-        CONF_INITIAL_MUTE_STATE: data.get(
-            CONF_INITIAL_MUTE_STATE, DEFAULT_INITIAL_MUTE_STATE
-        ),
-        CONF_INITIAL_POWER_STATE: data.get(
-            CONF_INITIAL_POWER_STATE, DEFAULT_INITIAL_POWER_STATE
-        ),
-        CONF_NAME: data.get(CONF_NAME, DEFAULT_NAME),
-        CONF_SOURCES: data.get(CONF_SOURCES, {}),
-    }
-
-
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up Z906 IR services and import YAML configuration."""
     _LOGGER.info("Setting up %s", DOMAIN)
