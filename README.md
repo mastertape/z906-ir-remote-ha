@@ -36,6 +36,33 @@ See [CHANGELOG.md](CHANGELOG.md) for release history.
   proxy firmware, exposed in Home Assistant as
   `infrared.xiao_smart_ir_mate_ir_proxy_transmitter`.
 
+## Important Home Assistant 2026.6.x Update Note
+
+Home Assistant 2026.6.x changed enough around custom integration loading that
+older releases of this integration may no longer be loaded from YAML reliably.
+When that happens, Home Assistant never imports the integration, so the
+`z906_ir_remote_ha` service domain is missing and automations that call
+`z906_ir_remote_ha.send_z906` can be reported as unknown actions.
+
+Version `1.1.0` fixes this by moving the receiver setup to Home Assistant
+config entries while preserving YAML import for existing users. The low-level
+services are still registered by the integration setup path, and existing
+automations do not need to change.
+
+Recommended update order for existing users:
+
+1. Create a Home Assistant backup.
+2. Update this integration to `v1.1.0` or newer through HACS.
+3. Restart Home Assistant.
+4. Confirm that `z906_ir_remote_ha.send_z906` appears under Developer Tools ->
+   Actions.
+5. Then update Home Assistant Core to 2026.6.x if you have not already done so.
+
+If Home Assistant Core is already on 2026.6.x and the service domain is missing,
+update this integration to `v1.1.0` or newer, restart Home Assistant, and then
+check Developer Tools -> Actions again. Existing YAML such as
+`z906_ir_remote_ha:` is imported automatically into a config entry.
+
 ## IR Hardware
 
 This integration is transport-agnostic. It does not know or care whether the IR
@@ -96,6 +123,11 @@ If the button does not work, add the repository manually as a custom repository:
 8. Restart Home Assistant.
 9. Add YAML configuration as documented below.
 
+For existing installations on Home Assistant 2026.6.x, install or update to
+`v1.1.0` or newer before troubleshooting automations. Versions before `1.1.0`
+may leave the `z906_ir_remote_ha` action domain unavailable because Home
+Assistant does not reach the old YAML-only setup path.
+
 ## HACS Publication Status
 
 This repository is prepared for HACS custom-repository use and is structured as
@@ -138,7 +170,19 @@ assets.
 
 ## Configuration
 
-Enable the integration from YAML. For Home Assistant packages:
+The integration now supports Home Assistant config entries. Existing YAML
+configuration is imported automatically on startup when Home Assistant loads the
+integration.
+
+For new installations, add the integration from the Home Assistant UI:
+
+1. Go to **Settings** -> **Devices & services**.
+2. Select **Add integration**.
+3. Search for **Logitech Z906 IR Remote**.
+4. Enter the infrared emitter entity and optional initial/source settings.
+
+Existing YAML configuration remains supported as an import source. For Home
+Assistant packages:
 
 ```yaml
 z906_ir_remote_ha:
@@ -158,6 +202,11 @@ The default `emitter_entity_id` is already
 ```yaml
 z906_ir_remote_ha:
 ```
+
+After the first successful YAML import, the receiver is represented as a Home
+Assistant config entry. Keep the YAML if you want Home Assistant to continue
+syncing these values on restart, or remove it after confirming the imported
+integration entry has the expected settings.
 
 Optional configuration:
 
@@ -480,6 +529,9 @@ Then add this to YAML and restart Home Assistant:
 ```yaml
 z906_ir_remote_ha:
 ```
+
+Alternatively, restart Home Assistant and add **Logitech Z906 IR Remote** from
+**Settings** -> **Devices & services**.
 
 ## Sources and Acknowledgements
 

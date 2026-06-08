@@ -4,6 +4,49 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [1.1.0] - 2026-06-08
+
+### Important for Home Assistant 2026.6.x
+
+- Home Assistant 2026.6.x may not load older YAML-only releases of this
+  integration reliably. If the integration is not imported, the
+  `z906_ir_remote_ha` service domain is missing and automations that call
+  `z906_ir_remote_ha.send_z906` may be reported as unknown actions.
+- Existing users should update this integration to `1.1.0` or newer and restart
+  Home Assistant. Existing `z906_ir_remote_ha:` YAML is imported into a config
+  entry automatically.
+
+### Fixed
+
+- Fixed Home Assistant installations where the YAML-only setup path no longer
+  reached `async_setup`, leaving `send_z906` and `send_nec` unavailable.
+
+### Added
+
+- Added a Home Assistant config flow for UI setup.
+- Added YAML import into a config entry so existing `z906_ir_remote_ha:` YAML
+  users do not need to reconfigure manually.
+- Added config-entry setup and unload support for the media player and button
+  platforms.
+- Added startup logging for service registration, YAML import, config-entry
+  setup, and platform forwarding.
+
+### Changed
+
+- Updated platform setup to use config entries as the primary runtime path.
+- Changed `infrared` from a hard manifest dependency to an
+  `after_dependencies` entry so the integration can still load while keeping
+  the infrared helper integration available when configured.
+- Enabled `config_flow` and `single_config_entry` in the manifest.
+- Updated the integration manifest version to `1.1.0`.
+
+### Unchanged
+
+- The NEC command import fix from `1.0.1` is preserved.
+- No IR command mappings changed.
+- Media player behavior, source labels, services, entity unique IDs, and entity
+  feature flags remain unchanged.
+
 ## [1.0.1] - 2026-06-05
 
 ### Fixed

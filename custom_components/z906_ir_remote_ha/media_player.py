@@ -10,6 +10,7 @@ from homeassistant.components.media_player import (
     MediaPlayerEntityFeature,
     MediaPlayerState,
 )
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_NAME
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
@@ -18,6 +19,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
+from .config import build_config
 from .const import (
     CONF_EMITTER_ENTITY_ID,
     CONF_INITIAL_MUTE_STATE,
@@ -44,6 +46,15 @@ async def async_setup_platform(
         return
 
     async_add_entities([Z906MediaPlayer(discovery_info)])
+
+
+async def async_setup_entry(
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+    async_add_entities: AddEntitiesCallback,
+) -> None:
+    """Set up the Logitech Z906 media player from a config entry."""
+    async_add_entities([Z906MediaPlayer(build_config(entry.data))])
 
 
 class Z906MediaPlayer(RestoreEntity, MediaPlayerEntity):

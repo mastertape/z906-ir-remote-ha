@@ -1,0 +1,25 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Logitech Z906 IR Remote is already configured."
+    },
+    "step": {
+      "user": {
+        "data": {
+          "emitter_entity_id": "Infrared emitter entity",
+          "initial_mute_state": "Initial mute state",
+          "initial_power_state": "Initial power state",
+          "name": "Name",
+          "source_aux": "AUX source name",
+          "source_input_1": "Input 1 source name",
+          "source_input_2": "Input 2 source name",
+          "source_input_3": "Input 3 source name",
+          "source_input_4": "Input 4 source name",
+          "source_input_5": "Input 5 source name"
+        },
+        "description": "Set up a Logitech Z906 receiver that sends commands through a Home Assistant infrared emitter entity.",
+        "title": "Logitech Z906 IR Remote"
+      }
+    }
+  }
+}
