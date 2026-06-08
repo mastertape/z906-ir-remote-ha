@@ -6,6 +6,16 @@ This project follows a simple Keep a Changelog-style format.
 
 ## [1.1.0] - 2026-06-08
 
+### Important for Home Assistant 2026.6.x
+
+- Home Assistant 2026.6.x may not load older YAML-only releases of this
+  integration reliably. If the integration is not imported, the
+  `z906_ir_remote_ha` service domain is missing and automations that call
+  `z906_ir_remote_ha.send_z906` may be reported as unknown actions.
+- Existing users should update this integration to `1.1.0` or newer and restart
+  Home Assistant. Existing `z906_ir_remote_ha:` YAML is imported into a config
+  entry automatically.
+
 ### Fixed
 
 - Fixed Home Assistant installations where the YAML-only setup path no longer
