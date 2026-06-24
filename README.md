@@ -95,18 +95,22 @@ entity so commands can flow through Home Assistant's official infrared API.
 
 ## Installation via HACS
 
-Click the button above to open this repository in HACS:
+The integration is available in the HACS default repository list. In a normal
+HACS installation, search for `Logitech Z906 IR Remote` under HACS
+integrations and download it.
+
+You can also click the button above to open this repository in HACS:
 
 1. Select `Open link`.
-2. Confirm adding the custom repository if Home Assistant asks.
-3. In HACS, download `Logitech Z906 IR Remote`.
+2. In HACS, download `Logitech Z906 IR Remote`.
 4. Restart Home Assistant.
 
-This repository is installable today as a HACS custom repository. It is being
-kept in a form suitable for a later HACS default-repository submission, but it
-is not part of the HACS default repositories yet.
+If the integration has not appeared in your HACS search yet, wait for HACS to
+refresh its default repository data. After a new default-repository merge, HACS
+may take several hours to show newly added integrations.
 
-If the button does not work, add the repository manually as a custom repository:
+As a fallback, you can still add this repository manually as a custom
+repository:
 
 1. Open HACS.
 2. Go to `Integrations`.
@@ -130,10 +134,9 @@ Assistant does not reach the old YAML-only setup path.
 
 ## HACS Publication Status
 
-This repository is prepared for HACS custom-repository use and is structured as
-a candidate for later HACS default-repository submission.
+This repository has been accepted into the HACS default repository list.
 
-Current in-repository preparation:
+Current in-repository status:
 
 - HACS metadata is present in `hacs.json`.
 - The integration manifest includes the HACS-required metadata keys.
@@ -141,6 +144,8 @@ Current in-repository preparation:
 - Local brand images are included in
   `custom_components/z906_ir_remote_ha/brand/`.
 - Versioned GitHub releases should be used for installs and updates.
+- The HACS default repository PR was merged in
+  [`hacs/default#7606`](https://github.com/hacs/default/pull/7606).
 
 Note: Home Assistant 2026.3+ supports local brand images for custom
 integrations. The icon may still appear as `icon not available` in some HACS
@@ -148,20 +153,6 @@ repository overview lists if that view uses the older
 `brands.home-assistant.io` CDN path instead of Home Assistant's local brands
 API. The integration itself ships local brand assets, and Home Assistant can use
 them in contexts that read the local brand folder.
-
-Remaining external maintainer steps before opening a HACS default-repository
-submission:
-
-- Add a GitHub repository description, for example:
-  `Home Assistant custom integration for Logitech Z906 over the new infrared entity platform`.
-- Add GitHub topics:
-  `home-assistant`, `hacs`, `custom-component`, `infrared`, `ir`, `logitech`,
-  `z906`, `esphome`, `media-player`.
-- Make sure GitHub Issues are enabled.
-- Make sure the HACS validation and Hassfest workflows pass without ignored
-  checks.
-- Create a full GitHub release after validation passes, not only a tag.
-- Open a PR to `hacs/default` only after the checks above are complete.
 
 The `home-assistant/brands` repository no longer accepts new custom integration
 brand PRs. The local brand images in this repository use a neutral custom

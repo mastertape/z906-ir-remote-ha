@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 This project follows a simple Keep a Changelog-style format.
 
+## [1.1.1] - 2026-06-24
+
+### Changed
+
+- Updated README installation and publication wording after the repository was
+  accepted into the HACS default repository list.
+- Kept custom-repository installation documented only as a fallback while HACS
+  default repository data propagates.
+
+### Unchanged
+
+- No runtime behavior changed.
+- Media player behavior, command mappings, source labels, services, and entity
+  features remain unchanged.
+
 ## [1.1.0] - 2026-06-08
 
 ### Important for Home Assistant 2026.6.x
